@@ -11,9 +11,10 @@
 
 
   //*** SENSOR SENSITIVITY NEED TO CALIBRATE ELSE CAN CAUSE FALSE POSITIVE***
-  #define LIGHTSENSITIVITY 500
-  #define GASSENSITIVITY 250
-  #define RAINSENSITIVITY 500
+  #define LIGHTSENSITIVITY 900
+  #define FLAMESENSITIVITY 1000  
+  #define GASSENSITIVITY 600
+  #define RAINSENSITIVITY 300
   #define DISTANCESENSITIVITY 100 //in CM
   //**************************************
   #define LEDBLINKCOUNT 2
@@ -35,6 +36,7 @@
     pinMode(RAIN,INPUT);
     pinMode(ULTRATRIGGER,OUTPUT);
     pinMode(ULTRAECHO,INPUT);
+     Serial.begin(9600);
   }
 
 
@@ -67,39 +69,34 @@
 
 
   //*****************FLAME SENSOR READING***********************************
-      counter=0;//initalize                                                *
       flamevalue=analogRead(FIREPIN);//Read Fire SENSOR Value              *
-      if (flamevalue < 100) {   //                                         *
-        time = millis() + 15000; //detecting time + 15 seconds             *
-        while(time > millis() && flamevalue < 350)//                       *
-        {//                                                                *
-            flamevalue = analogRead(FIREPIN);//                            *
-            if(flamevalue > 350){//                                        *
-              break;//                                                     *
-            }//                                                            *
-            delay(100);//NEED TO CALIBRATE FOR RELIABILITY               *
-            counter ++; //                                                 *
-            }//                                                            *
-          }//                                                              *
   //************************************************************************
 
 
   //******* LED LIGHT ON IF ANY VALUE GET TRUE *****************************
   digitalWrite(LED, LOW);   // turn the LED off
-  //if(counter>=14 ||distance<=DISTANCESENSITIVITY ||gasvalue>GASSENSITIVITY|| ldrvalue <LIGHTSENSITIVITY|| rainValue <RAINSENSITIVITY )//flame||ultrasonic||gas||light||rain
-  if(gasvalue>GASSENSITIVITY)  {
-  i=0;
-  while(i<LEDBLINKCOUNT)
+    Serial.print("Flame=");
+    Serial.print(flamevalue);
+    Serial.print('\t');
+    //Serial.print("Gas=");
+    //Serial.print(gasvalue);
+    //Serial.print("\t\t");
+    //Serial.print("LDR=");
+    //Serial.print(ldrvalue);
+    //Serial.print("\t\t");
+    //Serial.print("Rain=");
+    //Serial.print(rainValue);
+    //Serial.print('\t');
+    //Serial.print("Distance=");
+    //Serial.print(distance);
+    Serial.print('\n');
+  if(distance<=DISTANCESENSITIVITY||flamevalue>FLAMESENSITIVITY ||rainValue < RAINSENSITIVITY || ldrvalue> LIGHTSENSITIVITY||gasvalue>GASSENSITIVITY ) 
+//  if(flamevalue>FLAMESENSITIVITY)
   {
+ 
     digitalWrite(LED, HIGH);   // turn the LED
-    delay(1000);               // wait for a second
-    //digitalWrite(LED, LOW);    // turn the LED off by making the voltage LOW
-    //
-    delay(500);               // wait for a second
-  i++;
-  }
-  digitalWrite(LED, LOW);   // turn the LED off after blinking
+    //delay(1000);
   }
   //***********************************************************************
-  delay(1000);
+  delay(100);
   }

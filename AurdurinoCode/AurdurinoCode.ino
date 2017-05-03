@@ -13,11 +13,19 @@
 
 
   //*** SENSOR SENSITIVITY NEED TO CALIBRATE ELSE CAN CAUSE FALSE POSITIVE***
+<<<<<<< HEAD:AurdurinoCode/AurdurinoCode.ino
   #define LIGHTSENSITIVITY 600
   #define FLAMESENSITIVITY 1000  
   #define GASSENSITIVITY 600
   #define RAINSENSITIVITY 300
   #define DISTANCESENSITIVITY 50 //in CM
+=======
+  #define LIGHTSENSITIVITY 900
+  #define FLAMESENSITIVITY 1000  
+  #define GASSENSITIVITY 600
+  #define RAINSENSITIVITY 300
+  #define DISTANCESENSITIVITY 100 //in CM
+>>>>>>> 5c8d718ac8b9b16fba66c2cbcd46d3d72f50c1ad:AurdurinoCode.ino
   //**************************************
 
 
@@ -42,7 +50,10 @@
     
     pinMode(ULTRAECHO,INPUT);
      Serial.begin(9600);
+<<<<<<< HEAD:AurdurinoCode/AurdurinoCode.ino
      
+=======
+>>>>>>> 5c8d718ac8b9b16fba66c2cbcd46d3d72f50c1ad:AurdurinoCode.ino
   }
 
 
@@ -75,12 +86,17 @@
 
 
   //*****************FLAME SENSOR READING***********************************
+<<<<<<< HEAD:AurdurinoCode/AurdurinoCode.ino
       //flamevalue=analogRead(FIREPIN);//Read Fire SENSOR Value              *
+=======
+      flamevalue=analogRead(FIREPIN);//Read Fire SENSOR Value              *
+>>>>>>> 5c8d718ac8b9b16fba66c2cbcd46d3d72f50c1ad:AurdurinoCode.ino
   //************************************************************************
 
 
   //******* LED LIGHT ON IF ANY VALUE GET TRUE *****************************
   digitalWrite(LED, LOW);   // turn the LED off
+<<<<<<< HEAD:AurdurinoCode/AurdurinoCode.ino
     //Serial.print("Flame=");
     //Serial.print(flamevalue);
     //Serial.print('\t');
@@ -97,11 +113,30 @@
     Serial.print(distance);
     Serial.print('\n');
   /*if(||flamevalue>FLAMESENSITIVITY ||rainValue < RAINSENSITIVITY || ldrvalue> LIGHTSENSITIVITY||gasvalue>GASSENSITIVITY ) 
+=======
+    Serial.print("Flame=");
+    Serial.print(flamevalue);
+    Serial.print('\t');
+    //Serial.print("Gas=");
+    //Serial.print(gasvalue);
+    //Serial.print("\t\t");
+    //Serial.print("LDR=");
+    //Serial.print(ldrvalue);
+    //Serial.print("\t\t");
+    //Serial.print("Rain=");
+    //Serial.print(rainValue);
+    //Serial.print('\t');
+    //Serial.print("Distance=");
+    //Serial.print(distance);
+    Serial.print('\n');
+  if(distance<=DISTANCESENSITIVITY||flamevalue>FLAMESENSITIVITY ||rainValue < RAINSENSITIVITY || ldrvalue> LIGHTSENSITIVITY||gasvalue>GASSENSITIVITY ) 
+>>>>>>> 5c8d718ac8b9b16fba66c2cbcd46d3d72f50c1ad:AurdurinoCode.ino
 //  if(flamevalue>FLAMESENSITIVITY)
   {
  
     digitalWrite(LED, HIGH);   // turn the LED
     //delay(1000);
+<<<<<<< HEAD:AurdurinoCode/AurdurinoCode.ino
   }*/
   
   digitalWrite(VIBRATOR, LOW);   // turn the LED
@@ -119,4 +154,9 @@
     digitalWrite(LED, HIGH);   // turn the LED
   }
   delay(20);
+=======
+  }
+  //***********************************************************************
+  delay(100);
+>>>>>>> 5c8d718ac8b9b16fba66c2cbcd46d3d72f50c1ad:AurdurinoCode.ino
   }

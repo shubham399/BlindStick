@@ -1,0 +1,43 @@
+//code write by Moz for YouTube changel LogMaker360, 16-10-2015
+// code belongs to this video: https://www.youtube.com/watch?v=GXifVZ8_sj0
+
+int analoog = A3; // define the flame sensor interface
+int sensor; //read analoog value
+long time = 0;
+int counter = 0;
+void setup ()
+{
+  pinMode (analoog, INPUT) ;// output interface defines the flame sensor
+  Serial.begin(9600);//To Setup the Serial Connection 9600 is Communication Rate
+}
+
+void loop ()
+{
+  sensor = analogRead(analoog);
+  Serial.println(sensor);  // read input value
+
+
+    if (sensor < 100) {
+    time = millis() + 15000; //detecting time + 15 seconds
+
+    while(time > millis() && sensor < 350){                       // made this 350 but you easly speed that up to 650.
+    Serial.print("still detecting sensor value = ");              // in the video it is 500
+    Serial.println(sensor);
+    sensor = analogRead(sensor) ;
+    if(sensor > 350){
+    	Serial.print("no fire   sensor value = ");
+    	Serial.println(sensor);
+    	break;
+    }
+    delay(1000);
+    counter ++;
+    }
+    Serial.println("outside the while loop");
+    if(counter >= 14){
+    	Serial.println("START SPRINKLER!!!! ");
+    }
+  }
+
+  delay(1000);
+  counter = 0;        // set counter back to 0 so if it has broken out the while loop it doesnt built up an currupt value
+}

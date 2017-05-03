@@ -1,0 +1,22 @@
+int LDR=0;//for Analoge pin A0
+int LDRvalue=0;
+int LDRSensivity=500;//NEED TO CALIBRATE
+void setup()
+{
+Serial.begin(9600);
+pinMode(13,OUTPUT);
+}
+void loop()
+{
+  LDRvalue=alalogRead(LDR);
+  Seial.println(LDRValue);
+  delay(50);
+  if(LDRvalue<LDRSensivity)
+  {
+  digitalWrite(13,HIGH);
+  }
+  else
+  {
+  digitalWrite(13,LOW);
+  }
+}

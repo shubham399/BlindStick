@@ -1,0 +1,21 @@
+int pin8 = 8;//LED WHICH WILL TURN ON
+int sensor = A0;//GAS SENSOR CONNECTED HERE
+int sensorValue = 0;//GAS SENSOR VALUE BY DEAFULT IT IS ASSUMED TO BE 0
+
+void setup() {
+  pinMode(pin8, OUTPUT);//SO THAT WE CAN TURN LED ON
+  Serial.begin(9600);//TO DISPLAY GAS SENSOR VALUE ON DESKTOP MONITOR
+}
+
+void loop() {
+  sensorValue = analogRead(sensor);
+  Serial.println(sensorValue);
+  if (sensorValue > 500) 
+  {
+    digitalWrite(pin8, HIGH);
+  }
+  else {
+    digitalWrite(pin8, LOW);
+  }
+
+}

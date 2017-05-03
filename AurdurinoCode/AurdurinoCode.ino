@@ -1,22 +1,24 @@
   /* CONNECT PINS ACCORDINGLY */
   //**** PINS *************
-  #define RAIN A0
-  #define ULTRAECHO 8
-  #define ULTRATRIGGER 9
-  #define LDRPIN A1
-  #define GASPIN A2
-  #define FIREPIN A3
-  #define LED 13
+  #define RAIN A3
+  #define ULTRAECHO 3
+  #define ULTRATRIGGER 2
+  #define LDRPIN A0
+  //#define GASPIN A2
+  //#define FIREPIN A3
+  #define LED 9
+  #define BUZZER 13
+  #define VIBRATOR 12
   //***********************
 
 
   //*** SENSOR SENSITIVITY NEED TO CALIBRATE ELSE CAN CAUSE FALSE POSITIVE***
-  #define LIGHTSENSITIVITY 500
-  #define GASSENSITIVITY 250
-  #define RAINSENSITIVITY 500
-  #define DISTANCESENSITIVITY 100 //in CM
+  #define LIGHTSENSITIVITY 600
+  #define FLAMESENSITIVITY 1000  
+  #define GASSENSITIVITY 600
+  #define RAINSENSITIVITY 300
+  #define DISTANCESENSITIVITY 50 //in CM
   //**************************************
-  #define LEDBLINKCOUNT 2
 
 
   int rainValue=0;//Store rain  Sensor Value
@@ -31,10 +33,16 @@
 
   void setup()
   {
-    pinMode (FIREPIN, INPUT);
+//    pinMode (FIREPIN, INPUT);
     pinMode(RAIN,INPUT);
     pinMode(ULTRATRIGGER,OUTPUT);
+    pinMode(BUZZER,OUTPUT);
+    pinMode(VIBRATOR,OUTPUT);
+     pinMode(LED,OUTPUT);
+    
     pinMode(ULTRAECHO,INPUT);
+     Serial.begin(9600);
+     
   }
 
 
@@ -61,45 +69,54 @@
   //************** READ RAIN LDR AND GAS SENSOR VALUE***********************
       rainValue=analogRead(RAIN);//Read RAINSENSOR VALUE                   *
       ldrvalue=analogRead(LDRPIN);//Read LDR VALUE FOR LIGHT SENSOR        *
-      gasvalue=analogRead(GASPIN);//Read Gas SENSOR VALUE                  *
+      //gasvalue=analogRead(GASPIN);//Read Gas SENSOR VALUE                  *
   //************************************************************************
 
 
 
   //*****************FLAME SENSOR READING***********************************
-      counter=0;//initalize                                                *
-      flamevalue=analogRead(FIREPIN);//Read Fire SENSOR Value              *
-      if (flamevalue < 100) {   //                                         *
-        time = millis() + 15000; //detecting time + 15 seconds             *
-        while(time > millis() && flamevalue < 350)//                       *
-        {//                                                                *
-            flamevalue = analogRead(FIREPIN);//                            *
-            if(flamevalue > 350){//                                        *
-              break;//                                                     *
-            }//                                                            *
-            delay(100);//NEED TO CALIBRATE FOR RELIABILITY               *
-            counter ++; //                                                 *
-            }//                                                            *
-          }//                                                              *
+      //flamevalue=analogRead(FIREPIN);//Read Fire SENSOR Value              *
   //************************************************************************
 
 
   //******* LED LIGHT ON IF ANY VALUE GET TRUE *****************************
   digitalWrite(LED, LOW);   // turn the LED off
-  //if(counter>=14 ||distance<=DISTANCESENSITIVITY ||gasvalue>GASSENSITIVITY|| ldrvalue <LIGHTSENSITIVITY|| rainValue <RAINSENSITIVITY )//flame||ultrasonic||gas||light||rain
-  if(gasvalue>GASSENSITIVITY)  {
-  i=0;
-  while(i<LEDBLINKCOUNT)
+    //Serial.print("Flame=");
+    //Serial.print(flamevalue);
+    //Serial.print('\t');
+    //Serial.print("Gas=");
+    //Serial.print(gasvalue);
+    //Serial.print("\t\t");
+    Serial.print("LDR=");
+    Serial.print(ldrvalue);
+    Serial.print("\t\t");
+    Serial.print("Rain=");
+    Serial.print(rainValue);
+    Serial.print('\t');
+    Serial.print("Distance=");
+    Serial.print(distance);
+    Serial.print('\n');
+  /*if(||flamevalue>FLAMESENSITIVITY ||rainValue < RAINSENSITIVITY || ldrvalue> LIGHTSENSITIVITY||gasvalue>GASSENSITIVITY ) 
+//  if(flamevalue>FLAMESENSITIVITY)
+  {
+ 
+    digitalWrite(LED, HIGH);   // turn the LED
+    //delay(1000);
+  }*/
+  
+  digitalWrite(VIBRATOR, LOW);   // turn the LED
+  digitalWrite(BUZZER, LOW);   // turn the LED
+  if(distance<=DISTANCESENSITIVITY)
+  {
+    digitalWrite(VIBRATOR, HIGH);   // turn the LED
+  }
+  if(rainValue < RAINSENSITIVITY)
+  {
+    digitalWrite(BUZZER, HIGH);// turn the LED
+  }
+  if(ldrvalue> LIGHTSENSITIVITY)
   {
     digitalWrite(LED, HIGH);   // turn the LED
-    delay(1000);               // wait for a second
-    //digitalWrite(LED, LOW);    // turn the LED off by making the voltage LOW
-    //
-    delay(500);               // wait for a second
-  i++;
   }
-  digitalWrite(LED, LOW);   // turn the LED off after blinking
-  }
-  //***********************************************************************
-  delay(1000);
+  delay(20);
   }
